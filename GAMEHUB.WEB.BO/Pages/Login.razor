@@ -1,0 +1,55 @@
+﻿@page "/Login"
+@inject NavigationManager navManager
+
+
+<div style="min-height:400px">
+    <div class="loginBox">
+        <div class="box">
+            <br />
+            <h1>Admin Panel</h1>
+            
+
+            @if (loginVM is not null)
+            {
+
+                <RadzenStack Gap="0" Class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 400px; overflow: hidden;">
+                    <RadzenCard Class="rz-shadow-0 rz-border-radius-0 rz-background-color-primary rz-p-12" style="text-align: center;">
+                        <RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" Class="rz-color-white rz-mb-0">Login</RadzenText>
+                    </RadzenCard>
+                    <RadzenCard Class="rz-shadow-0 rz-p-12">
+                        <RadzenTemplateForm Data=@("SimpleLogin")>
+                            <RadzenLogin
+                                AllowRegister="false"
+                                AllowResetPassword="true"
+                                Username=@loginVM.Email
+                                UserText="Email"
+                                Password=@loginVM.Password
+                                Login=@(args => OnLogin(args, "Login with default values")) />
+                        </RadzenTemplateForm>
+                    </RadzenCard>
+                </RadzenStack>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    public LoginVM loginVM {get; set; }
+    public string alertMessage { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        loginVM = new();
+        return base.OnInitializedAsync();
+    }
+
+    bool rememberMe = true;
+
+    void OnLogin(LoginArgs args, string name)
+    {
+        //console.Log($"{name} -> Username: {args.Username}, password: {args.Password}, remember me: {args.RememberMe}");
+        navManager.NavigateTo("/");
+    }
+}
