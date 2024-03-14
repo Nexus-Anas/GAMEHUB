@@ -1,0 +1,32 @@
+﻿@using GAMEHUB.WEB.FO.Entities
+
+
+<h4><b>Name:</b> <span class="text text-secondary">@Contact.Name</span></h4>
+
+@if (displayInfo)
+{
+    <h4><b>Email:</b> <span class="text text-secondary">@Contact.Email</span></h4>
+}
+
+<button @onclick="DisplayEmail" class="btn btn-secondary">@btnText</button>&nbsp;&nbsp;
+<button @onclick="() => RemoveAction.InvokeAsync(Contact)" class="btn btn-danger">Delete</button>
+<hr />
+
+@code {
+
+    [Parameter]
+    public Contact Contact { get; set; }
+
+    [Parameter]
+    public EventCallback<Contact> RemoveAction { get; set; }
+
+    private string btnText = "Display Email";
+
+    private bool displayInfo = false;
+
+    void DisplayEmail()
+    {
+        displayInfo = !displayInfo;
+        btnText = displayInfo ? "Hide Email" : "Display Email";
+    }
+}

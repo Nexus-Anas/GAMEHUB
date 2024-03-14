@@ -1,0 +1,29 @@
+﻿@page "/Contact"
+@using GAMEHUB.WEB.FO.Entities
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-2">
+                <input type="text" class="form-control" placeholder="enter name" @bind="Name" />
+            </div>
+            <div class="col-2">
+                <input type="email" class="form-control" placeholder="type email" @bind="Email" />
+            </div>
+            <div class="col-2">
+                <button @onclick="Create" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<ContactList Contacts="_service.Contacts">
+    <NullContact>
+        <span class="text text-dark">Loading data...</span>
+    </NullContact>
+    <EmptyContact>
+        <span class="text text-danger">No contacts to display.</span>
+    </EmptyContact>
+</ContactList>

@@ -1,0 +1,35 @@
+﻿@using GAMEHUB.WEB.FO.Entities
+
+@if(showPopup)
+{
+    <div class="modal-backdrop show"></div>
+    <div class="modal fade show" style="display:block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@TitleText</h5>
+                    <button @onclick="ShowHidePopup" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text text-dark fw-bold">@BodyText</p>
+                </div>
+                <div class="modal-footer">
+                    <button @onclick="ShowHidePopup" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button @onclick="() => OnConfirm.InvokeAsync(ContactToDelete)" class="btn btn-danger">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool showPopup = false;
+    public void ShowHidePopup() => showPopup = !showPopup;
+
+    public Contact ContactToDelete { get; set; }
+    public string TitleText { get; set; }
+    public string BodyText { get; set; }
+
+    [Parameter]
+    public EventCallback<Contact> OnConfirm { get; set; }
+}

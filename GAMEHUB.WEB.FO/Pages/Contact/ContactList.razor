@@ -1,0 +1,52 @@
+﻿@using GAMEHUB.WEB.FO.Entities
+@inject ContactService _service
+@inject IJSRuntime Jsr
+
+
+@if (Contacts is null)
+{
+    @NullContact
+}
+else if (Contacts.Count == 0)
+{
+    @EmptyContact
+}
+else
+{
+    @foreach (var item in _service.Contacts)
+    {
+        <ContactInfo Contact="item" RemoveAction="Remove" />
+    }
+}
+
+<ConfirmDeletion @ref="ConfirmDeletion" OnConfirm="OnDeleteConfirmed"></ConfirmDeletion>
+
+@code {
+    private ConfirmDeletion ConfirmDeletion;
+
+    [Parameter]
+    public List<Contact> Contacts { get; set; }
+
+    [Parameter]
+    public RenderFragment NullContact { get; set; }
+
+    [Parameter]
+    public RenderFragment EmptyContact { get; set; }
+
+    private async Task Remove(Contact contact)
+    {
+        // var confirm = await Jsr.InvokeAsync<bool>("confirm", $"Do you really want to delete {contact.Name}?");
+        // if (confirm)
+        //     _service.RemoveContact(contact);
+        ConfirmDeletion.TitleText = "Delete Contact";
+        ConfirmDeletion.BodyText = $"Are you sure you want to delete {contact.Name} from the list?";
+        ConfirmDeletion.ContactToDelete = contact;
+        ConfirmDeletion.ShowHidePopup();
+    }
+
+    private async Task OnDeleteConfirmed(Contact contact)
+    {
+        _service.RemoveContact(contact);
+        ConfirmDeletion.ShowHidePopup();
+    }
+}
